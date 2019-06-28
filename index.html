@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<meta http-equiv="X-UA-Compatible" content="ie=edge" />
+		<link
+			href="https://fonts.googleapis.com/css?family=Open+Sans"
+			rel="stylesheet"
+		/>
+		<link rel="stylesheet" href="styles.css" />
+		<title>翻转卡!</title>
+	</head>
+	<body>
+		<div id="flashcard-app" class="container">
+			<h1>翻转卡 App!</h1>
+
+			<div class="flashcard-form">
+				<label for="front"
+					>正面
+					<input
+						v-on:keyup.enter="addCard"
+						type="text"
+						id="front"
+						v-model="newFront"
+					/>
+				</label>
+				<label for="back"
+					>反面
+					<input
+						v-on:keyup.enter="addCard"
+						type="text"
+						id="back"
+						v-model="newBack"
+					/>
+				</label>
+				<button v-on:click="addCard">添加一张新卡</button>
+				<span v-show="error" class="error"
+					>Oops! 入输的反转卡片需要正面和反面.</span
+				>
+			</div>
+
+			<ul class="flashcard-list">
+				<li
+					v-on:click="card.flipped=!card.flipped"
+					v-for="(card,index) in cards"
+				>
+					<transition-group name="flip">
+						<p key="front" v-show="!card.flipped" class="card">
+							{{ card.front }}
+							<span @click="deleteCard(index)" class="delete-card">X</span>
+						</p>
+						<p key="back" v-show="card.flipped" class="card">
+							{{ card.back }}
+							<span @click="deleteCard(index)" class="delete-card">X</span>
+						</p>
+					</transition-group>
+				</li>
+			</ul>
+		</div>
+
+		<script src="https://cdn.jsdelivr.net/npm/vue@2.5.13/dist/vue.js"></script>
+		<script src="app.js"></script>
+	</body>
+</html>
